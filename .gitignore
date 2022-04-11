@@ -129,6 +129,5 @@ dmypy.json
 .pyre/
 
 POP909_HAT
-model/model*
 responses
 .DS_Store
