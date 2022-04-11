@@ -3,5 +3,6 @@ gunicorn==20.1.0
 matplotlib==3.3.3
 miditoolkit==0.1.15
 mido==1.2.10
+scipy
 tensorflow-cpu>=2.0.0
 uvicorn==0.15.0
