@@ -3,8 +3,7 @@ import 'axios'
 import axios from 'axios';
 import { Component } from 'react'
 import MidiPlayer from "midi-player-js";
-// import JZZ from "jzz";
-import { Box, Button, Container, Checkbox, FormControlLabel, InputLabel, FormControl, Slider, CircularProgress, TextField, Grid, Chip, ListItem, Paper, IconButton, NativeSelect, Tooltip } from "@mui/material";
+import { Box, Button, Modal, Typography, Container, Checkbox, FormControlLabel, InputLabel, FormControl, Slider, CircularProgress, TextField, Grid, Chip, ListItem, Paper, IconButton, NativeSelect, Tooltip } from "@mui/material";
 import { Piano } from "react-piano";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import InfoIcon from '@mui/icons-material/Info';
@@ -33,7 +32,8 @@ class App extends Component {
       withChords: true,
       generating: false,
       chords: [],
-      current_chord: -1
+      current_chord: -1,
+      error: false
     }
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 
@@ -109,9 +109,15 @@ class App extends Component {
         with_chords: this.state.withChords
       }
     })
+    if (res.status !== 200) {
+      this.setState({error: true, generating: false})
+      console.log(res.statusText)
+      return
+    }
     if (this.state.playing) {
       this.stop()
     }
+
     this.events = res.data.events
     let buffer = new Uint8Array(res.data.buffer)
     this.player = new MidiPlayer.Player()
@@ -170,11 +176,14 @@ class App extends Component {
   }
 
   async changeInstrument(name) {
-
     const ac = new AudioContext()
     const instrument = await Soundfont.instrument(this.state.ac, name)
 
-    this.state.instrument.stop()
+    this.pause()
+    if (this.state.playing) {
+      this.play()
+    }
+
     this.setState(() => ({
       ac,
       instrument
@@ -390,7 +399,31 @@ class App extends Component {
             })}
           </Box>
         </Box>
+        <Modal
+          open={this.state.error}
+          onClose={() => this.setState({error: false})}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              An error occurred while generating, please try again.
+            </Typography>
+            <Button onClick={() => this.setState({error: false})}>Close</Button>
+          </Box>
+        </Modal>
       </Container>
+
     );
   }
 }
