@@ -16,14 +16,16 @@ CHECKPOINT = 'model'
 if not os.path.exists('responses'):
 	os.mkdir('responses')
 
-if not os.path.exists('model'):
-	os.mkdir('model')
+if not os.path.exists(CHECKPOINT):
+	os.mkdir(CHECKPOINT)
+	print('Loading S3FileSystem...')
 	fs = s3fs.S3FileSystem()
 
 	bucket = 's3://popgen-model/model/'
 	files = fs.ls(bucket)
 
 	for f in files:
+		print('Downloading ' + f)
 		name = f.split('/')[-1]
 		fs.download(f, f"{CHECKPOINT}/{name}")
 
