@@ -99,6 +99,17 @@ class App extends Component {
     this.setState(() => ({ generating: true }))
     if (!this.state.tbar)
       this.setState({ tbar: 4 })
+    
+    if(!this.state.fileLoaded) {
+      await axios.get(API_PATH + '/generate', {
+        params: {
+          n_target_bar: this.state.tbar,
+          temperature: this.state.temp,
+          key: this.state.key,
+          with_chords: this.state.withChords
+        }
+      }, {timeout: 2000})
+    }
     let res = await axios.get(API_PATH + '/generate', {
       params: {
         n_target_bar: this.state.tbar,
