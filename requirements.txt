@@ -5,5 +5,5 @@ miditoolkit==0.1.15
 mido==1.2.10
 scipy
 s3fs
-tensorflow-cpu==2.1.0
+tensorflow-cpu==2.0.0-rc0
 uvicorn==0.15.0
