@@ -3,7 +3,7 @@ import os
 import tensorflow as tf
 import utils
 
-CHECKPOINT = 'model_25'
+CHECKPOINT = 'model'
 
 HSA_PATH = '/Users/hisham/University/Final Year Project/hierarchical-structure-analysis-main/POP909_HAT'
 
