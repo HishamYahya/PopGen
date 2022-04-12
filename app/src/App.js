@@ -179,10 +179,7 @@ class App extends Component {
     const ac = new AudioContext()
     const instrument = await Soundfont.instrument(this.state.ac, name)
 
-    this.pause()
-    if (this.state.playing) {
-      this.play()
-    }
+    this.stop()
 
     this.setState(() => ({
       ac,
@@ -293,7 +290,10 @@ class App extends Component {
               onClick={() => this.generate()}
               disabled={this.state.generating}>
               {this.state.generating
-                ? <CircularProgress />
+                ? <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                  <Typography>Generating... </Typography>
+                  <CircularProgress />
+                  </Box>
                 : 'Generate'}
             </Button>
           </Box>
