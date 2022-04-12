@@ -65,6 +65,10 @@ class App extends Component {
   }
 
   async initPiano() {
+    this.state.ac = new AudioContext()
+
+    this.state.instrument = this.state.instrument ?? await Soundfont.instrument(this.state.ac, this.state.instrument?.name ?? 'acoustic_grand_piano')
+
     this.player.on('midiEvent', (event) => {
       if (event.name === "Note on") {
         if (event.velocity === 0) {
@@ -81,22 +85,16 @@ class App extends Component {
         }))
       }
     });
-
     this.player.on('endOfFile', () => {
       this.stop()
     });
-
-    const ac = new AudioContext()
-
-    const instrument = this.state.instrument ?? await Soundfont.instrument(ac, this.state.instrument?.name ?? 'acoustic_grand_piano')
-
+  
     this.setState(() => ({
       fileLoaded: true,
-      ac,
-      instrument
     }))
-  }
 
+  }
+  
   async generate() {
     this.setState(() => ({ generating: true }))
     if (!this.state.tbar)
