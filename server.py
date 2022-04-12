@@ -11,13 +11,13 @@ from pathlib import Path
 from typing import List
 from starlette.background import BackgroundTask
 
-CHECKPOINT = 'model'
+CHECKPOINT = 'tmp/model'
 
-if not os.path.exists('responses'):
-	os.mkdir('responses')
+if not os.path.exists('tmp/responses'):
+	os.makedirs('tmp/responses', exist_ok=True)
 
 if not os.path.exists(CHECKPOINT):
-	os.mkdir(CHECKPOINT)
+	os.makedirs(CHECKPOINT, exist_ok=True)
 	print('Loading S3FileSystem...')
 	fs = s3fs.S3FileSystem()
 
@@ -54,7 +54,7 @@ async def generate(n_target_bar: int = 5, temperature: float = 1.2, topk: int = 
 		events = utils.add_played_chords(events)
 	words = [model.event2word['{}_{}'.format(e.name, e.value)] for e in events]
 
-	path = f'responses/{str(datetime.now())}.mid'
+	path = f'tmp/responses/{str(datetime.now())}.mid'
 	utils.write_midi(words, model.word2event, path)
 
 	with open(path, 'rb') as f:
@@ -73,7 +73,7 @@ async def generate(n_target_bar: int = 5, temperature: float = 1.2, topk: int = 
 
 @app.get('/download')
 async def download(events: List[str] = Query(...)):
-	path = f'responses/{str(datetime.now())}.mid'
+	path = f'tmp/responses/{str(datetime.now())}.mid'
 	events = [utils.Event(name, None, value, None) for name, value in [e.split('_') for e in events]]
 	utils.write_midi(None, None, path, events)
 	return FileResponse(path, background=BackgroundTask(lambda: os.remove(path)))
