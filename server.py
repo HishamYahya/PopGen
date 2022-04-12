@@ -6,6 +6,7 @@ import utils
 import tensorflow as tf
 from datetime import datetime
 import os
+import s3fs
 from pathlib import Path
 from typing import List
 from starlette.background import BackgroundTask
@@ -14,6 +15,17 @@ CHECKPOINT = 'model'
 
 if not os.path.exists('responses'):
 	os.mkdir('responses')
+
+if not os.path.exists('model'):
+	os.mkdir('model')
+	fs = s3fs.S3FileSystem()
+
+	bucket = 's3://popgen-model/model/'
+	files = fs.ls(bucket)
+
+	for f in files:
+		name = f.split('/')[-1]
+		fs.download(f, f"{CHECKPOINT}/{name}")
 
 app = FastAPI()
 
