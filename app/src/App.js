@@ -14,7 +14,7 @@ import 'react-piano/dist/styles.css';
 import fluidR3 from './fluidR3.json'
 
 
-const API_PATH = 'https://popgen-api.herokuapp.com'
+const API_PATH = 'http://ec2-52-55-209-247.compute-1.amazonaws.com'
 
 class App extends Component {
   constructor(props) {
