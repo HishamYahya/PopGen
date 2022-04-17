@@ -14,7 +14,7 @@ import 'react-piano/dist/styles.css';
 import fluidR3 from './fluidR3.json'
 
 
-const API_PATH = 'http://ec2-52-55-209-247.compute-1.amazonaws.com'
+const API_PATH = 'https://ec2-52-55-209-247.compute-1.amazonaws.com'
 
 class App extends Component {
   constructor(props) {
@@ -100,9 +100,6 @@ class App extends Component {
     if (!this.state.tbar)
       this.setState({ tbar: 4 })
     
-    if(!this.state.fileLoaded) {
-      await axios.get(API_PATH, {timeout: 2000}).catch(() => null)
-    }
     let res = await axios.get(API_PATH + '/generate', {
       params: {
         n_target_bar: this.state.tbar,
