@@ -132,3 +132,5 @@ POP909_HAT
 model
 responses
 .DS_Store
+ssh.pem
+*.ipynb
