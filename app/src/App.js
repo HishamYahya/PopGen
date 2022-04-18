@@ -235,14 +235,14 @@ class App extends Component {
                     variant="standard"
                     InputProps={{
                       inputProps: {
-                        max: 64, min: 1
+                        max: 16, min: 1
                       }
                     }}
                     fullWidth
                     value={this.state.tbar}
                     onChange={e => {
                       const newB = e.target.value
-                      if ((newB > 0 && newB < 65))
+                      if ((newB > 0 && newB < 17))
                         this.setState(() => ({ tbar: newB }))
                       if (newB === '')
                         this.setState({ tbar: null })
@@ -258,7 +258,7 @@ class App extends Component {
 
               <Grid item xs={12} md={6} sx={{ alignItems: 'center' }}>
 
-                <InputLabel sx={{ mt: 2 }} id="temp">Temperature <Tooltip title="The more the temperature, the more adventerous the model will be."><InfoIcon fontSize='inherit' /></Tooltip></InputLabel>
+                <InputLabel sx={{ mt: 2 }} id="temp">Temperature <Tooltip title="The higher the temperature, the more adventerous the model will be."><InfoIcon fontSize='inherit' /></Tooltip></InputLabel>
                 <Slider
                   value={this.state.temp}
                   size='medium'
