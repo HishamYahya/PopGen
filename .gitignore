@@ -134,3 +134,6 @@ responses
 .DS_Store
 ssh.pem
 *.ipynb
+/*.png
+/*.txt
+/*.mid
