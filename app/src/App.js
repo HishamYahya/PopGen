@@ -3,7 +3,7 @@ import 'axios'
 import axios from 'axios';
 import { Component } from 'react'
 import MidiPlayer from "midi-player-js";
-import { Box, Button, Modal, Typography, Container, Checkbox, FormControlLabel, InputLabel, FormControl, Slider, CircularProgress, TextField, Grid, Chip, ListItem, Paper, IconButton, NativeSelect, Tooltip } from "@mui/material";
+import { Box, Button, Modal, Typography, Container, Checkbox, FormControlLabel, InputLabel, FormControl, Slider, CircularProgress, TextField, Grid, Chip, ListItem, Paper, IconButton, NativeSelect, Tooltip, Toolbar } from "@mui/material";
 import { Piano } from "react-piano";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import InfoIcon from '@mui/icons-material/Info';
@@ -12,7 +12,7 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import Soundfont from 'soundfont-player'
 import 'react-piano/dist/styles.css';
 import fluidR3 from './fluidR3.json'
-
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const API_PATH = 'https://api.popgen.app'
 
@@ -189,9 +189,23 @@ class App extends Component {
   render() {
     return (
       <Container component='main' width='xs'>
+
+        <Toolbar>
+          
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+            PopGen
+          </Typography>
+          <IconButton 
+          style={{icon: {color:'black'}}}
+          onClick={() => window.open("https://github.com/HishamYahya/PopGen", "_blank")}>
+            <GitHubIcon/>
+          </IconButton>
+
+        </Toolbar>
+
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
